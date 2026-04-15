@@ -1,0 +1,6 @@
+{
+  "name": "PPLGuard AI",
+  "description": "Enterprise-grade LSASS threat detection pipeline with AI-powered anomaly detection and real-time SOC dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
