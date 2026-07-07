@@ -1,218 +1,93 @@
+# PPLGuard / SentinelIQ
 
-  
-  <h1>PPLGuard - AI LSASS Threat Detection Pipeline</h1>
-  
-  <p>
-    <strong>A production-style cybersecurity pipeline that detects anomalous access attempts to protected Windows processes like LSASS using machine learning.</strong>
-  </p>
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
+[![License](https://img.shields.io/badge/license-MIT-blue)]()
+[![Coverage](https://img.shields.io/badge/coverage-%25-yellow)]()
 
-  <p>
-    Built with <strong>Spring Boot (Java)</strong>, <strong>Python (Isolation Forest)</strong>, and <strong>containerized microservices</strong>.
-  </p>
+> Behavior-based LSASS process protection and threat analytics platform — built on a causal state-transition motif architecture, not signature matching.
 
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-  [![Java](https://img.shields.io/badge/Java-21-007396)](https://www.java.com)
-  [![Python](https://img.shields.io/badge/Python-3.11-3776AB)](https://www.python.org)
-  [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F)](https://spring.io/projects/spring-boot)
-</div>
-
-## 🎯 Overview
-
-**PPLGuard** is an advanced threat detection system designed to protect critical Windows processes such as **LSASS** (Local Security Authority Subsystem Service) from credential dumping and other memory access attacks.
-
-The system combines:
-- Real-time process monitoring
-- Machine Learning anomaly detection (Isolation Forest)
-- Microservices architecture
-- Modern web dashboard (built with TypeScript + Vite)
+<!-- Swap the badges above for real GitHub Actions badges once CI is wired in:
+https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge -->
 
 ---
 
-## ✨ Key Features
+## Demo
 
-- **AI-Powered Anomaly Detection** — Uses Isolation Forest to identify unusual access patterns to protected processes
-- **PPL (Protected Process Light) Monitoring** — Detects attempts to bypass process protection
-- **Real-time Alerts** — Instant notification when suspicious activity is detected
-- **Microservices Architecture** — Scalable and maintainable backend services
-- **Modern Dashboard** — Intuitive web interface for monitoring and investigation
-- **Containerized Deployment** — Easy deployment with Docker & Docker Compose
-- **Spring Boot Backend** — Robust Java API layer
-- **Python ML Engine** — High-performance anomaly detection service
+<!-- Screenshot or short screen-recording GIF of the Grafana dashboard(s) here.
+A 15-30 second demo video embedded via GitHub-hosted MP4 or a linked Loom converts far better than static text. -->
+
+`[ dashboard screenshot / demo GIF placeholder ]`
 
 ---
 
-## 🏗️ Architecture
+## Problem
+
+Traditional LSASS-protection tooling relies on static signatures or vendor-specific EDR hooks — both break the moment an attacker varies technique, and neither gives a SOC analyst a causal explanation of *why* an alert fired, only *that* it fired. Most open detection tooling also stops at alerting; it doesn't score analyst time efficiency or correlate related alerts into a single incident narrative, which means SOC teams drown in low-context noise.
+
+## Solution
+
+PPLGuard/SentinelIQ takes a state-transition causal motif approach: instead of matching known-bad patterns, it models the sequence of process/memory behaviors that precede credential-dumping activity and flags deviations from expected state transitions. This is layered on:
+
+- **TimescaleDB** for high-cardinality time-series threat telemetry
+- **Alert correlation engine** that groups related signals into single incidents instead of raw alert floods
+- **Bounty Efficiency Score™** — a custom formula scoring analyst/bounty-hunter time-to-signal efficiency
+- **PostgreSQL DDL across 6 core tables** modeling entities, events, correlations, and scoring
+- **Grafana dashboards** (4 shipped) for real-time SOC visibility
+
+## Results
+
+<!-- Fill in with real numbers once available — these are the categories worth measuring: -->
+- Alert-to-incident correlation reduces raw alert volume by **[X]%**
+- Mean time-to-triage improved from **[X] → [Y]**
+- Detection coverage mapped against **[N] MITRE ATT&CK techniques**, including T1003 (Credential Dumping) and related LSASS-access patterns
+
+---
+
+## Architecture
+
+<!-- Replace with a real diagram — draw.io, Excalidraw, or Mermaid rendered to PNG all work.
+Minimum: show data flow from telemetry source → TimescaleDB → correlation engine → Grafana/alerting. -->
 
 ```
-┌─────────────────┐    ┌────────────────────┐    ┌────────────────────┐
-│   Frontend      │◄──►│   Spring Boot API  │◄──►│  Python ML Service │
-│ (TypeScript/Vite)│    │ (Java)             │    │ (Isolation Forest) │
-└─────────────────┘    └────────────────────┘    └────────────────────┘
-                               │
-                               ▼
-                        ┌────────────────┐
-                        │  Docker Compose│
-                        └────────────────┘
+[ architecture diagram placeholder ]
+
+  Telemetry Sources → Ingest Layer → TimescaleDB → Correlation Engine → Scoring (Bounty Efficiency Score™) → Grafana Dashboards / Alerts
 ```
 
+## Tech Stack & Skills Demonstrated
+
+| Layer | Technology | Skill Demonstrated |
+|---|---|---|
+| Time-series storage | TimescaleDB | Schema design for high-cardinality security telemetry |
+| Core data model | PostgreSQL (6-table DDL) | Relational modeling for threat correlation |
+| Detection logic | State-transition motif engine | Behavior-based (non-signature) detection design |
+| Visualization | Grafana (4 dashboards) | Security observability / SOC tooling |
+| Scoring | Bounty Efficiency Score™ (custom formula) | Applied quantitative modeling |
+| Threat mapping | MITRE ATT&CK | Detection engineering, technique coverage |
+
 ---
 
-## 📋 Prerequisites
+## Roadmap
 
-- **Docker** and **Docker Compose**
-- **Java 21+**
-- **Python 3.11+**
-- **Node.js 18+** (for frontend development)
-- **Maven** (for Java builds)
+- [x] Phase 1–2: Core telemetry ingest + correlation engine
+- [x] Phase 3: Causal state-transition motif architecture
+- [ ] Phase 4: **Causal intervention layer** — the primary planned competitive differentiator; moves from detection to automated containment recommendations
+- [ ] Public detection rule library (Sigma-format export)
+- [ ] CI/CD pipeline with automated rule regression testing
 
 ---
 
-## 🚀 Quick Start
+## Getting Started
 
-### 1. Clone the Repository
+<!-- Standard setup instructions — fill in once repo is packaged for public consumption -->
 
 ```bash
-git clone https://github.com/youngslim4985-sketch/PPLGuard-AI-LSASS-Threat-Detection-Pipeline.git
-cd PPLGuard-AI-LSASS-Threat-Detection-Pipeline
+git clone <repo-url>
+cd pplguard
+# setup instructions here
 ```
 
-### 2. Environment Setup
+## License
 
-```bash
-# Copy environment files
-cp .env.example .env
-```
-
-### 3. Run with Docker Compose (Recommended)
-
-```bash
-docker-compose up --build
-```
-
-### 4. Access the Application
-
-- **Dashboard**: http://localhost:5173
-- **API**: http://localhost:8080
-- **ML Service**: http://localhost:5000
-
----
-
-## 🛠️ Development Setup
-
-### Backend (Spring Boot)
-
-```bash
-cd backend
-mvn spring-boot:run
-```
-
-### ML Service (Python)
-
-```bash
-cd ml-service
-pip install -r requirements.txt
-python app.py
-```
-
-### Frontend
-
-```bash
-npm install
-npm run dev
-```
-
----
-
-## 📁 Project Structure
-
-```
-PPLGuard-AI-LSASS-Threat-Detection-Pipeline/
-├── backend/              # Spring Boot Java API
-├── ml-service/           # Python ML microservice
-├── frontend/             # TypeScript + Vite dashboard
-├── docker/               # Docker configurations
-├── docs/                 # Documentation
-├── .env.example
-└── docker-compose.yml
-```
-
----
-
-## 🔍 How It Works
-
-1. **Process Monitoring** — The system monitors access attempts to protected processes
-2. **Feature Extraction** — Extracts relevant features from process access patterns
-3. **Anomaly Detection** — Isolation Forest model scores the access attempt
-4. **Alert Generation** — High anomaly scores trigger security alerts
-5. **Visualization** — Results are displayed in the web dashboard
-
----
-
-## 🧪 Testing
-
-```bash
-# Backend tests
-mvn test
-
-# Python ML tests
-cd ml-service && pytest
-
-# Frontend tests
-npm test
-```
-
----
-
-## 📊 Performance
-
-- **Detection Latency**: < 200ms
-- **False Positive Rate**: < 2% (tunable)
-- **Model Accuracy**: 96%+ on known attack patterns
-
----
-
-## 🔐 Security Features
-
-- Protected Process Light (PPL) awareness
-- Memory access pattern analysis
-- Credential dumping prevention
-- Behavioral baselining
-- Audit logging
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
----
-
-## ⚠️ Disclaimer
-
-This tool is for **educational and defensive security research** purposes. Always ensure you have proper authorization before monitoring systems.
-
----
-
-## 📞 Support
-
-- Open an [Issue](https://github.com/youngslim4985-sketch/PPLGuard-AI-LSASS-Threat-Detection-Pipeline/issues)
-- Star the repo if you find it useful ⭐
-
----
-
-**Protecting critical Windows processes with AI.**
-```
-
-This README is professional, comprehensive, and follows modern open-source standards. You can copy and paste it directly into your `README.md` file.
+MIT (or your preferred license)
