@@ -1,93 +1,58 @@
-# PPLGuard / SentinelIQ
+# PPLGuard AI — LSASS Threat Detection Pipeline
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
-[![License](https://img.shields.io/badge/license-MIT-blue)]()
-[![Coverage](https://img.shields.io/badge/coverage-%25-yellow)]()
+PPLGuard is a defensive security platform designed to detect, analyze, and respond to advanced Windows threats through automated telemetry collection, threat intelligence enrichment, MITRE ATT&CK mapping, risk scoring, and security policy enforcement.
 
-> Behavior-based LSASS process protection and threat analytics platform — built on a causal state-transition motif architecture, not signature matching.
+The platform combines endpoint monitoring, AI-assisted threat analysis, DevSecOps security controls, and automated response workflows into a unified threat detection pipeline.
 
-<!-- Swap the badges above for real GitHub Actions badges once CI is wired in:
-https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge -->
+## Core Capabilities
 
----
+- **Threat Detection Pipeline**
+  - Windows telemetry ingestion
+  - LSASS-focused threat monitoring
+  - Suspicious behavior detection
+  - Security event processing
 
-## Demo
+- **Threat Intelligence & Analysis**
+  - MITRE ATT&CK technique mapping
+  - Sigma rule integration
+  - Risk scoring and prioritization
+  - Enrichment workflows
 
-<!-- Screenshot or short screen-recording GIF of the Grafana dashboard(s) here.
-A 15-30 second demo video embedded via GitHub-hosted MP4 or a linked Loom converts far better than static text. -->
+- **Security Automation**
+  - Automated response actions
+  - Notification workflows
+  - Policy-driven security decisions
 
-`[ dashboard screenshot / demo GIF placeholder ]`
+- **DevSecOps Security Layer**
+  - Secure Python packaging
+  - Automated testing
+  - Dependency vulnerability scanning
+  - Secret detection
+  - Container security scanning
+  - OPA/Rego security policies
 
----
+## Security Pipeline
 
-## Problem
+Telemetry | v Detection Engine | v Threat Intelligence Enrichment | v MITRE Mapping | v Risk Scoring | v Response Automation | v Security Reporting
 
-Traditional LSASS-protection tooling relies on static signatures or vendor-specific EDR hooks — both break the moment an attacker varies technique, and neither gives a SOC analyst a causal explanation of *why* an alert fired, only *that* it fired. Most open detection tooling also stops at alerting; it doesn't score analyst time efficiency or correlate related alerts into a single incident narrative, which means SOC teams drown in low-context noise.
+## Technology Stack
 
-## Solution
+- Python
+- FastAPI
+- Docker
+- Kubernetes/Terraform
+- Sigma Rules
+- MITRE ATT&CK
+- Trivy
+- OPA/Rego
+- GitHub Actions
+- Ruff / MyPy / Bandit
+- pytest
 
-PPLGuard/SentinelIQ takes a state-transition causal motif approach: instead of matching known-bad patterns, it models the sequence of process/memory behaviors that precede credential-dumping activity and flags deviations from expected state transitions. This is layered on:
+## Project Status
 
-- **TimescaleDB** for high-cardinality time-series threat telemetry
-- **Alert correlation engine** that groups related signals into single incidents instead of raw alert floods
-- **Bounty Efficiency Score™** — a custom formula scoring analyst/bounty-hunter time-to-signal efficiency
-- **PostgreSQL DDL across 6 core tables** modeling entities, events, correlations, and scoring
-- **Grafana dashboards** (4 shipped) for real-time SOC visibility
+PPLGuard is currently undergoing active development with the core architecture, packaging system, security pipeline, and DevSecOps foundation established. Future development focuses on completing detection modules, telemetry integrations, automated response capabilities, and production security workflows.
 
-## Results
+## Security Philosophy
 
-<!-- Fill in with real numbers once available — these are the categories worth measuring: -->
-- Alert-to-incident correlation reduces raw alert volume by **[X]%**
-- Mean time-to-triage improved from **[X] → [Y]**
-- Detection coverage mapped against **[N] MITRE ATT&CK techniques**, including T1003 (Credential Dumping) and related LSASS-access patterns
-
----
-
-## Architecture
-
-<!-- Replace with a real diagram — draw.io, Excalidraw, or Mermaid rendered to PNG all work.
-Minimum: show data flow from telemetry source → TimescaleDB → correlation engine → Grafana/alerting. -->
-
-```
-[ architecture diagram placeholder ]
-
-  Telemetry Sources → Ingest Layer → TimescaleDB → Correlation Engine → Scoring (Bounty Efficiency Score™) → Grafana Dashboards / Alerts
-```
-
-## Tech Stack & Skills Demonstrated
-
-| Layer | Technology | Skill Demonstrated |
-|---|---|---|
-| Time-series storage | TimescaleDB | Schema design for high-cardinality security telemetry |
-| Core data model | PostgreSQL (6-table DDL) | Relational modeling for threat correlation |
-| Detection logic | State-transition motif engine | Behavior-based (non-signature) detection design |
-| Visualization | Grafana (4 dashboards) | Security observability / SOC tooling |
-| Scoring | Bounty Efficiency Score™ (custom formula) | Applied quantitative modeling |
-| Threat mapping | MITRE ATT&CK | Detection engineering, technique coverage |
-
----
-
-## Roadmap
-
-- [x] Phase 1–2: Core telemetry ingest + correlation engine
-- [x] Phase 3: Causal state-transition motif architecture
-- [ ] Phase 4: **Causal intervention layer** — the primary planned competitive differentiator; moves from detection to automated containment recommendations
-- [ ] Public detection rule library (Sigma-format export)
-- [ ] CI/CD pipeline with automated rule regression testing
-
----
-
-## Getting Started
-
-<!-- Standard setup instructions — fill in once repo is packaged for public consumption -->
-
-```bash
-git clone <repo-url>
-cd pplguard
-# setup instructions here
-```
-
-## License
-
-MIT (or your preferred license)
+PPLGuard treats security controls as code. Detection logic, infrastructure policies, and security automation are version-controlled, tested, and continuously validated to create a reliable defensive security platform.
